@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowLeft, Phone } from 'lucide-react';
 import { GYM_CONTACT, HERO_FACILITY_IMAGE } from '../data/gymData';
-import { Language, PAGE_PATHS, PageId } from '../utils/membership';
+import { Language, PageId, buildNavigationTarget } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { FacilityImage } from './FacilityImage';
 import { LanguageToggle } from './LanguageToggle';
@@ -64,7 +64,7 @@ export function HeroSection({
               </button>
 
               <a
-                href={PAGE_PATHS.programs}
+                href={buildNavigationTarget('programs')}
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate('programs');

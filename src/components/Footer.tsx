@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { GYM_CONTACT } from '../data/gymData';
-import { Language, PAGE_PATHS, PageId } from '../utils/membership';
+import { Language, PageId, buildNavigationTarget } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
 
@@ -23,7 +23,7 @@ export function Footer({ lang, onNavigate, onChangeLang }: FooterProps) {
       <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between">
         <div>
           <a
-            href={PAGE_PATHS.home}
+            href={buildNavigationTarget('home')}
             onClick={(e) => handleLinkClick(e, 'home')}
             className="font-display text-2xl font-extrabold tracking-tight text-[#F4F6F4]"
           >
@@ -42,28 +42,28 @@ export function Footer({ lang, onNavigate, onChangeLang }: FooterProps) {
           className="flex flex-wrap items-center gap-6 text-sm text-[#B8C0B8]"
         >
           <a
-            href={PAGE_PATHS.home}
+            href={buildNavigationTarget('home')}
             onClick={(e) => handleLinkClick(e, 'home')}
             className="hover:text-[#F4F6F4] transition-colors"
           >
             {t.nav.home}
           </a>
           <a
-            href={PAGE_PATHS.facility}
+            href={buildNavigationTarget('facility')}
             onClick={(e) => handleLinkClick(e, 'facility')}
             className="hover:text-[#F4F6F4] transition-colors"
           >
             {t.nav.facility}
           </a>
           <a
-            href={PAGE_PATHS.programs}
+            href={buildNavigationTarget('programs')}
             onClick={(e) => handleLinkClick(e, 'programs')}
             className="hover:text-[#F4F6F4] transition-colors"
           >
             {t.nav.programs}
           </a>
           <a
-            href={PAGE_PATHS.booking}
+            href={buildNavigationTarget('booking')}
             onClick={(e) => handleLinkClick(e, 'booking')}
             className="hover:text-[#F4F6F4] transition-colors"
           >

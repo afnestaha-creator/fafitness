@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dumbbell } from 'lucide-react';
+import { resolveAssetUrl } from '../utils/membership';
 
 interface FacilityImageProps {
   src: string;
@@ -17,6 +18,11 @@ export function FacilityImage({
   priority = false,
 }: FacilityImageProps) {
   const [failed, setFailed] = useState(false);
+  const resolvedSrc = resolveAssetUrl(src);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [resolvedSrc]);
 
   if (failed) {
     return (
@@ -35,7 +41,7 @@ export function FacilityImage({
 
   return (
     <img
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       referrerPolicy="no-referrer"
       loading={priority ? 'eager' : 'lazy'}

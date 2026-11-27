@@ -17,6 +17,75 @@ export function resolvePageFromPath(pathname: string): PageId {
   return 'home';
 }
 
+export function getAppBasePath(moduleUrl?: string): string {
+  try {
+    const targetUrl =
+      moduleUrl ?? (typeof import.meta !== 'undefined' ? import.meta.url : '');
+    if (!targetUrl) return '/';
+    const pathname = new URL(targetUrl, 'https://localhost').pathname;
+    const assetsIdx = pathname.lastIndexOf('/assets/');
+    if (assetsIdx !== -1) {
+      const prefix = pathname.slice(0, assetsIdx + 1);
+      return prefix.startsWith('/') ? prefix : `/${prefix}`;
+    }
+    return '/';
+  } catch {
+    return '/';
+  }
+}
+
+export function resolveAssetUrl(
+  assetPath: string,
+  basePath: string = getAppBasePath(),
+): string {
+  if (
+    !assetPath ||
+    /^(?:https?:)?\/\//i.test(assetPath) ||
+    assetPath.startsWith('data:') ||
+    assetPath.startsWith('blob:')
+  ) {
+    return assetPath;
+  }
+  const normalizedBase = basePath.endsWith('/') ? basePath : `${basePath}/`;
+  const cleanPath = assetPath.replace(/^\/+/, '');
+  return `${normalizedBase}${cleanPath}`;
+}
+
+export function resolvePageFromLocation(
+  pathname: string,
+  hash: string = '',
+  basePath: string = getAppBasePath(),
+): PageId {
+  if (hash && hash.startsWith('#/')) {
+    return resolvePageFromPath(hash.slice(1));
+  }
+  const normalizedBase = basePath.endsWith('/') ? basePath : `${basePath}/`;
+  let relativePath = pathname || '/';
+  if (normalizedBase !== '/' && relativePath.startsWith(normalizedBase)) {
+    relativePath = `/${relativePath.slice(normalizedBase.length)}`;
+  } else if (
+    normalizedBase !== '/' &&
+    relativePath === normalizedBase.slice(0, -1)
+  ) {
+    relativePath = '/';
+  }
+  return resolvePageFromPath(relativePath);
+}
+
+export function buildNavigationTarget(
+  page: PageId,
+  basePath: string = getAppBasePath(),
+): string {
+  const normalizedBase = basePath.endsWith('/') ? basePath : `${basePath}/`;
+  if (normalizedBase === '/') {
+    return PAGE_PATHS[page];
+  }
+  if (page === 'home') {
+    return normalizedBase;
+  }
+  return `${normalizedBase}#${PAGE_PATHS[page]}`;
+}
+
 export type BillingCycle = 'monthly' | 'quarterly' | 'annual';
 
 export type TrainingGoal = 'muscle' | 'fat-loss' | 'strength' | 'beginner';

@@ -1,6 +1,6 @@
 import { useState, MouseEvent } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Language, PAGE_PATHS, PageId } from '../utils/membership';
+import { Language, PageId, buildNavigationTarget } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
 
@@ -37,7 +37,7 @@ export function Navbar({
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#090B0A]/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-8 px-6 py-4">
         <a
-          href={PAGE_PATHS.home}
+          href={buildNavigationTarget('home')}
           onClick={(e) => handleLinkClick(e, 'home')}
           className="font-display text-2xl font-extrabold tracking-tight text-[#F4F6F4] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7CE81E]"
         >
@@ -53,7 +53,7 @@ export function Navbar({
             return (
               <a
                 key={item.id}
-                href={PAGE_PATHS[item.id]}
+                href={buildNavigationTarget(item.id)}
                 aria-current={active ? 'page' : undefined}
                 onClick={(e) => handleLinkClick(e, item.id)}
                 className={`whitespace-nowrap shrink-0 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7CE81E] ${
@@ -97,7 +97,7 @@ export function Navbar({
               return (
                 <a
                   key={item.id}
-                  href={PAGE_PATHS[item.id]}
+                  href={buildNavigationTarget(item.id)}
                   aria-current={active ? 'page' : undefined}
                   onClick={(e) => handleLinkClick(e, item.id)}
                   className={`py-2 text-base font-medium ${

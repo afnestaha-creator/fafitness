@@ -18,10 +18,11 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import {
   Language,
   MembershipTierId,
-  PAGE_PATHS,
   PageId,
   TrainingGoal,
-  resolvePageFromPath,
+  buildNavigationTarget,
+  getAppBasePath,
+  resolvePageFromLocation,
 } from './utils/membership';
 import { TRANSLATIONS } from './i18n/translations';
 
@@ -42,7 +43,11 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>(() => {
     try {
       return typeof window !== 'undefined'
-        ? resolvePageFromPath(window.location.pathname)
+        ? resolvePageFromLocation(
+            window.location.pathname,
+            window.location.hash,
+            getAppBasePath(),
+          )
         : 'home';
     } catch {
       return 'home';
@@ -72,18 +77,29 @@ export default function App() {
   }, [lang]);
 
   useEffect(() => {
-    const onPopState = () => {
-      setCurrentPage(resolvePageFromPath(window.location.pathname));
+    const syncPageFromLocation = () => {
+      setCurrentPage(
+        resolvePageFromLocation(
+          window.location.pathname,
+          window.location.hash,
+          getAppBasePath(),
+        ),
+      );
     };
-    window.addEventListener('popstate', onPopState);
-    return () => window.removeEventListener('popstate', onPopState);
+    window.addEventListener('popstate', syncPageFromLocation);
+    window.addEventListener('hashchange', syncPageFromLocation);
+    return () => {
+      window.removeEventListener('popstate', syncPageFromLocation);
+      window.removeEventListener('hashchange', syncPageFromLocation);
+    };
   }, []);
 
   const navigate = (page: PageId, targetElementId?: string) => {
-    const targetPath = PAGE_PATHS[page];
+    const targetUrl = buildNavigationTarget(page, getAppBasePath());
     try {
-      if (window.location.pathname !== targetPath) {
-        window.history.pushState({ page }, '', targetPath);
+      const currentUrl = `${window.location.pathname}${window.location.hash}`;
+      if (currentUrl !== targetUrl) {
+        window.history.pushState({ page }, '', targetUrl);
       }
     } catch {
       // Ignore history SecurityError in sandboxed frames; state navigation still works.

@@ -2,11 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   buildGoogleMapsSearchUrl,
+  buildNavigationTarget,
   calculatePlanPrice,
   formatDzd,
   formatRouteMetrics,
   generatePassCode,
+  getAppBasePath,
   recommendProgram,
+  resolveAssetUrl,
+  resolvePageFromLocation,
   resolvePageFromPath,
   validateTrialBooking,
 } from './membership';
@@ -18,6 +22,59 @@ test('resolvePageFromPath maps all 4 page URLs deterministically', () => {
   assert.equal(resolvePageFromPath('/pass-gratuit'), 'booking');
   assert.equal(resolvePageFromPath('/equipements/'), 'facility');
   assert.equal(resolvePageFromPath('/unknown'), 'home');
+});
+
+test('getAppBasePath and subpath helpers support GitHub Pages /fafitness/ and root /', () => {
+  assert.equal(
+    getAppBasePath('https://afnestaha-creator.github.io/fafitness/assets/index-abc.js'),
+    '/fafitness/',
+  );
+  assert.equal(
+    getAppBasePath('https://fafitness.vercel.app/assets/index-abc.js'),
+    '/',
+  );
+  assert.equal(
+    getAppBasePath('http://localhost:3000/src/utils/membership.ts'),
+    '/',
+  );
+
+  assert.equal(
+    resolveAssetUrl('/assets/aistudio/oo_0060cc98.jpg', '/fafitness/'),
+    '/fafitness/assets/aistudio/oo_0060cc98.jpg',
+  );
+  assert.equal(
+    resolveAssetUrl('/assets/aistudio/oo_0060cc98.jpg', '/'),
+    '/assets/aistudio/oo_0060cc98.jpg',
+  );
+
+  assert.equal(
+    resolvePageFromLocation('/fafitness/', '', '/fafitness/'),
+    'home',
+  );
+  assert.equal(
+    resolvePageFromLocation('/fafitness', '', '/fafitness/'),
+    'home',
+  );
+  assert.equal(
+    resolvePageFromLocation('/fafitness/', '#/equipements', '/fafitness/'),
+    'facility',
+  );
+  assert.equal(
+    resolvePageFromLocation('/fafitness/programmes', '', '/fafitness/'),
+    'programs',
+  );
+  assert.equal(
+    resolvePageFromLocation('/pass-gratuit', '', '/'),
+    'booking',
+  );
+
+  assert.equal(buildNavigationTarget('home', '/'), '/');
+  assert.equal(buildNavigationTarget('facility', '/'), '/equipements');
+  assert.equal(buildNavigationTarget('home', '/fafitness/'), '/fafitness/');
+  assert.equal(
+    buildNavigationTarget('programs', '/fafitness/'),
+    '/fafitness/#/programmes',
+  );
 });
 
 test('calculatePlanPrice computes monthly, quarterly, and annual discounts accurately', () => {

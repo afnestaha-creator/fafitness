@@ -14,6 +14,7 @@ export default defineConfig(({mode}) => {
     '';
 
   return {
+    base: './',
     define: {
       __MAPS_KEY_FALLBACK__: JSON.stringify(mapsApiKey),
     },
