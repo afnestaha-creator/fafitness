@@ -27,6 +27,9 @@ import {
   buildGoogleMapsSearchUrl,
   formatRouteMetrics,
 } from '../utils/membership';
+import { ErrorBoundary } from './ErrorBoundary';
+
+declare const __MAPS_KEY_FALLBACK__: string;
 
 interface GymLocationMapProps {
   lang: Language;
@@ -52,7 +55,9 @@ const ATTRIBUTION_IDS = ['gmp_mcp_codeassist_v1_aistudio'];
 function getMapsApiKey(): string {
   return (
     import.meta.env.VITE_GOOGLE_MAPS_API_KEY ||
-    process.env.GOOGLE_MAPS_API_KEY ||
+    (typeof __MAPS_KEY_FALLBACK__ !== 'undefined'
+      ? __MAPS_KEY_FALLBACK__
+      : '') ||
     ''
   );
 }
@@ -591,6 +596,40 @@ export function GymLocationMap({ lang }: GymLocationMapProps) {
   const apiKey = getMapsApiKey();
   const directMapsUrl = buildGoogleMapsSearchUrl(GYM_CONTACT.addressDisplay);
 
+  const fallbackCard = (
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div className="rounded-2xl border border-white/[0.08] bg-[#121513] p-6 sm:p-7 lg:col-span-5">
+        <p className="text-sm font-medium text-[#7CE81E]">{t.eyebrow}</p>
+        <h2 className="mt-2 font-display text-3xl font-extrabold text-[#F4F6F4]">
+          {t.title}
+        </h2>
+        <p className="mt-3 text-sm text-[#B8C0B8]">{t.subtitle}</p>
+        <p dir="ltr" className="mt-5 font-semibold text-[#F4F6F4]">
+          {GYM_CONTACT.addressDisplay}
+        </p>
+        <a
+          href={directMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#7CE81E] px-4 py-3 text-sm font-bold text-[#090B0A] hover:bg-[#8FF236]"
+        >
+          <span>{t.openInMapsBtn}</span>
+          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+
+      <div
+        data-testid="gym-map-container"
+        className="flex h-[380px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-white/12 bg-[#121513] p-8 text-center sm:h-[440px] lg:col-span-7"
+      >
+        <MapPin className="h-8 w-8 text-[#7CE81E]" aria-hidden="true" />
+        <p className="max-w-md text-sm text-[#B8C0B8]">
+          {apiKey ? t.apiError : t.missingKeyError}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <section
       id="gym-map"
@@ -598,46 +637,18 @@ export function GymLocationMap({ lang }: GymLocationMapProps) {
       aria-label={t.title}
     >
       {apiKey ? (
-        <APIProvider
-          apiKey={apiKey}
-          libraries={['places', 'marker', 'routes']}
-          language="fr"
-          region="DZ"
-        >
-          <GymMapInner lang={lang} />
-        </APIProvider>
-      ) : (
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-          <div className="rounded-2xl border border-white/[0.08] bg-[#121513] p-6 sm:p-7 lg:col-span-5">
-            <p className="text-sm font-medium text-[#7CE81E]">{t.eyebrow}</p>
-            <h2 className="mt-2 font-display text-3xl font-extrabold text-[#F4F6F4]">
-              {t.title}
-            </h2>
-            <p className="mt-3 text-sm text-[#B8C0B8]">{t.subtitle}</p>
-            <p dir="ltr" className="mt-5 font-semibold text-[#F4F6F4]">
-              {GYM_CONTACT.addressDisplay}
-            </p>
-            <a
-              href={directMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#7CE81E] px-4 py-3 text-sm font-bold text-[#090B0A] hover:bg-[#8FF236]"
-            >
-              <span>{t.openInMapsBtn}</span>
-              <ExternalLink className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </div>
-
-          <div
-            data-testid="gym-map-container"
-            className="flex h-[380px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-white/12 bg-[#121513] p-8 text-center sm:h-[440px] lg:col-span-7"
+        <ErrorBoundary fallback={fallbackCard}>
+          <APIProvider
+            apiKey={apiKey}
+            libraries={['places', 'marker', 'routes']}
+            language="fr"
+            region="DZ"
           >
-            <MapPin className="h-8 w-8 text-[#7CE81E]" aria-hidden="true" />
-            <p className="max-w-md text-sm text-[#B8C0B8]">
-              {t.missingKeyError}
-            </p>
-          </div>
-        </div>
+            <GymMapInner lang={lang} />
+          </APIProvider>
+        </ErrorBoundary>
+      ) : (
+        fallbackCard
       )}
     </section>
   );
