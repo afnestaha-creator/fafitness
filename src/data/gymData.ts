@@ -42,10 +42,15 @@ export interface TransformationStory {
 }
 
 export const GYM_CONTACT = {
-  brand: 'FA FITNESS',
+  brand: 'FA FITNESS GYM',
   handle: 'fafitness.gym',
   phoneDisplay: '0771 03 91 72',
   phoneHref: 'tel:+213771039172',
+  addressDisplay: 'RQ58+255, Rue Lounis Mustapha, Jijel',
+  addressQueries: [
+    'RQ58+255, Rue Lounis Mustapha, Jijel',
+    'Rue Lounis Mustapha, Jijel, Algeria',
+  ],
   hours: {
     fr: '06:00 – 23:00 · Ouvert 7j/7',
     ar: '06:00 – 23:00 · مفتوح 7 أيام/الأسبوع',

@@ -507,3 +507,41 @@ export function generatePassCode(name: string, phone: string): string {
   const tail = digits.slice(-4).padStart(4, '0');
   return `FA-${cleanName}-${tail}`;
 }
+
+export function buildGoogleMapsSearchUrl(query: string): string {
+  const cleaned = query.trim();
+  if (!cleaned) return 'https://www.google.com/maps';
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cleaned)}`;
+}
+
+export function formatRouteMetrics(
+  distanceMeters: number | undefined,
+  durationMillis: number | null | undefined,
+  lang: Language = 'fr',
+): { distanceText: string; durationText: string } | null {
+  if (
+    typeof distanceMeters !== 'number' ||
+    !Number.isFinite(distanceMeters) ||
+    distanceMeters <= 0 ||
+    typeof durationMillis !== 'number' ||
+    !Number.isFinite(durationMillis) ||
+    durationMillis <= 0
+  ) {
+    return null;
+  }
+
+  const km = distanceMeters / 1000;
+  const distanceText =
+    km >= 1
+      ? `${km.toFixed(1)} ${lang === 'ar' ? 'كم' : 'km'}`
+      : `${Math.round(distanceMeters)} ${lang === 'ar' ? 'م' : 'm'}`;
+
+  const totalMinutes = Math.max(1, Math.round(durationMillis / 60000));
+  const durationText =
+    totalMinutes >= 60
+      ? `${Math.floor(totalMinutes / 60)} ${lang === 'ar' ? 'س' : 'h'} ${totalMinutes % 60} ${lang === 'ar' ? 'د' : 'min'}`
+      : `${totalMinutes} ${lang === 'ar' ? 'دقيقة' : 'min'}`;
+
+  return { distanceText, durationText };
+}
+

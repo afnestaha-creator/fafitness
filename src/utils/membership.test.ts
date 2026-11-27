@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  buildGoogleMapsSearchUrl,
   calculatePlanPrice,
   formatDzd,
+  formatRouteMetrics,
   generatePassCode,
   recommendProgram,
   resolvePageFromPath,
@@ -98,3 +100,26 @@ test('generatePassCode handles Latin and Arabic names gracefully', () => {
   assert.equal(generatePassCode('Karim Benali', '0771 03 91 72'), 'FA-KA-9172');
   assert.equal(generatePassCode('كريم بن علي', '0771 03 91 72'), 'FA-FA-9172');
 });
+
+test('buildGoogleMapsSearchUrl encodes gym address query cleanly', () => {
+  const url = buildGoogleMapsSearchUrl('RQ58+255, Rue Lounis Mustapha, Jijel');
+  assert.equal(
+    url,
+    'https://www.google.com/maps/search/?api=1&query=RQ58%2B255%2C%20Rue%20Lounis%20Mustapha%2C%20Jijel',
+  );
+  assert.equal(buildGoogleMapsSearchUrl('   '), 'https://www.google.com/maps');
+});
+
+test('formatRouteMetrics formats distance and duration in FR and AR', () => {
+  assert.deepEqual(formatRouteMetrics(2450, 420000, 'fr'), {
+    distanceText: '2.5 km',
+    durationText: '7 min',
+  });
+  assert.deepEqual(formatRouteMetrics(750, 120000, 'ar'), {
+    distanceText: '750 م',
+    durationText: '2 دقيقة',
+  });
+  assert.equal(formatRouteMetrics(0, 1000, 'fr'), null);
+  assert.equal(formatRouteMetrics(undefined, null, 'ar'), null);
+});
+

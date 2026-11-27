@@ -13,6 +13,7 @@ import {
 } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
+import { GymLocationMap } from './GymLocationMap';
 
 interface FreePassBookingProps {
   lang: Language;
@@ -134,6 +135,12 @@ export function FreePassBooking({
               <p>
                 <span className="text-[#9BA69B]">{t.hoursLabel} </span>
                 <span className="tabular-nums">{GYM_CONTACT.hours[lang]}</span>
+              </p>
+              <p>
+                <span className="text-[#9BA69B]">{t.addressLabel} </span>
+                <span dir="ltr" className="font-semibold text-[#F4F6F4]">
+                  {GYM_CONTACT.addressDisplay}
+                </span>
               </p>
             </div>
           </div>
@@ -396,6 +403,8 @@ export function FreePassBooking({
             ))}
           </div>
         </div>
+
+        <GymLocationMap lang={lang} />
       </div>
     </section>
   );

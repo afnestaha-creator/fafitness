@@ -115,6 +115,31 @@ export interface Translations {
     instructionsEnd: string;
     callDeskCta: string;
     bookAnotherCta: string;
+    addressLabel: string;
+  };
+  location: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    addressLabel: string;
+    hoursLabel: string;
+    phoneLabel: string;
+    directionsBtn: string;
+    directionsLoading: string;
+    clearRouteBtn: string;
+    openInMapsBtn: string;
+    routeDistanceLabel: string;
+    routeDurationLabel: string;
+    loadingMap: string;
+    noResultsError: string;
+    apiError: string;
+    missingKeyError: string;
+    geoDeniedError: string;
+    geoUnsupportedError: string;
+    routeError: string;
+    infoWindowSubtitle: string;
+    userMarkerTitle: string;
+    homeBannerAction: string;
   };
   footer: {
     rights: string;
@@ -321,6 +346,38 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       instructionsEnd: 'si vous souhaitez que Coach Hamza vous attende à votre arrivée.',
       callDeskCta: 'Appeler l’Accueil',
       bookAnotherCta: 'Réserver un Autre Pass',
+      addressLabel: 'Adresse :',
+    },
+    location: {
+      eyebrow: 'Nous Trouver à Jijel',
+      title: 'Localisez FA FITNESS GYM Sur la Carte',
+      subtitle:
+        'Située Rue Lounis Mustapha à Jijel, la salle est facilement accessible en voiture ou à pied avec stationnement à proximité.',
+      addressLabel: 'Adresse Exacte',
+      hoursLabel: 'Horaires d’Ouverture',
+      phoneLabel: 'Téléphone Accueil',
+      directionsBtn: 'Itinéraire depuis ma position',
+      directionsLoading: 'Calcul de l’itinéraire...',
+      clearRouteBtn: 'Effacer le trajet',
+      openInMapsBtn: 'Ouvrir dans Google Maps',
+      routeDistanceLabel: 'Distance estimée',
+      routeDurationLabel: 'Temps en voiture',
+      loadingMap: 'Chargement de la carte interactive...',
+      noResultsError:
+        'Position exacte introuvable automatiquement pour cette adresse. Ouvrez le repère directement dans Google Maps.',
+      apiError:
+        'Impossible de charger la carte interactive pour le moment. Utilisez le bouton Google Maps ci-dessous.',
+      missingKeyError:
+        'Clé Google Maps non configurée. Utilisez le lien direct Google Maps ci-dessous pour nous rejoindre.',
+      geoDeniedError:
+        'Autorisez la géolocalisation dans votre navigateur pour tracer l’itinéraire depuis votre position.',
+      geoUnsupportedError:
+        'Votre navigateur ne prend pas en charge la géolocalisation automatique.',
+      routeError:
+        'Impossible de calculer cet itinéraire pour le moment. Ouvrez le trajet dans Google Maps.',
+      infoWindowSubtitle: 'Salle de Musculation & Coaching · Jijel',
+      userMarkerTitle: 'Votre position',
+      homeBannerAction: 'Voir sur la carte',
     },
     footer: {
       rights: 'FA FITNESS GYM — Sport · Santé · Bien-être · Pour Tous',
@@ -525,6 +582,38 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       instructionsEnd: 'إذا كنت تريد أن يكون الكوتش حمزة في انتظارك عند وصولك.',
       callDeskCta: 'اتصل بالاستقبال الآن',
       bookAnotherCta: 'حجز تذكرة أخرى',
+      addressLabel: 'العنوان:',
+    },
+    location: {
+      eyebrow: 'موقعنا في جيجل',
+      title: 'اعثر على قاعة FA FITNESS GYM بسهولة',
+      subtitle:
+        'تقع القاعة في شارع لونيس مصطفى بمدينة جيجل مع سهولة الوصول بالسيارة أو سيراً على الأقدام.',
+      addressLabel: 'العنوان الدقيق',
+      hoursLabel: 'أوقات العمل',
+      phoneLabel: 'هاتف الاستقبال',
+      directionsBtn: 'الاتجاهات من موقعي',
+      directionsLoading: 'جاري حساب المسار...',
+      clearRouteBtn: 'إخفاء المسار',
+      openInMapsBtn: 'افتح في خرائط جوجل',
+      routeDistanceLabel: 'المسافة المقدرة',
+      routeDurationLabel: 'المدة بالسيارة',
+      loadingMap: 'جاري تحميل الخريطة التفاعلية...',
+      noResultsError:
+        'تعذر تحديد الإحداثيات تلقائياً. يمكنك فتح الموقع مباشرة عبر زر خرائط جوجل أدناه.',
+      apiError:
+        'تعذر تحميل الخريطة التفاعلية حالياً. استخدم رابط خرائط جوجل المباشر أدناه.',
+      missingKeyError:
+        'مفتاح خرائط جوجل غير مهيأ حالياً. استخدم الرابط المباشر للوصول إلى القاعة.',
+      geoDeniedError:
+        'يرجى تفعيل صلاحية الموقع في متصفحك لحساب المسار من مكانك الحالي.',
+      geoUnsupportedError:
+        'متصفحك لا يدعم تحديد الموقع الجغرافي التلقائي.',
+      routeError:
+        'تعذر حساب المسار الآن. يمكنك فتح الاتجاهات مباشرة في خرائط جوجل.',
+      infoWindowSubtitle: 'قاعة كمال الأجسام والتدريب · جيجل',
+      userMarkerTitle: 'موقعك الحالي',
+      homeBannerAction: 'عرض على الخريطة',
     },
     footer: {
       rights: 'FA FITNESS GYM — رياضة · صحة · لياقة للجميع',

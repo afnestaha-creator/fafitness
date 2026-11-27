@@ -32,6 +32,9 @@ export function Footer({ lang, onNavigate, onChangeLang }: FooterProps) {
           <p className="mt-1 text-xs text-[#9BA69B]">
             {t.footer.rights} · {GYM_CONTACT.hours[lang]}
           </p>
+          <p dir="ltr" className="mt-0.5 text-xs text-[#6E786E]">
+            {GYM_CONTACT.addressDisplay}
+          </p>
         </div>
 
         <nav

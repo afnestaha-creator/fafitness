@@ -42,6 +42,14 @@ export default function App() {
   const [selectedGoal, setSelectedGoal] = useState<TrainingGoal>('muscle');
   const [selectedTier, setSelectedTier] =
     useState<MembershipTierId>('pro-muscle');
+  const [quotaExceeded, setQuotaExceeded] = useState(false);
+
+  useEffect(() => {
+    const onQuotaExceeded = () => setQuotaExceeded(true);
+    window.addEventListener('gmp-quota-exceeded', onQuotaExceeded);
+    return () =>
+      window.removeEventListener('gmp-quota-exceeded', onQuotaExceeded);
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -58,18 +66,26 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  const navigate = (page: PageId, focusInputId?: string) => {
+  const navigate = (page: PageId, targetElementId?: string) => {
     const targetPath = PAGE_PATHS[page];
     if (window.location.pathname !== targetPath) {
       window.history.pushState({ page }, '', targetPath);
     }
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (focusInputId) {
+    if (targetElementId) {
       window.setTimeout(() => {
-        document.getElementById(focusInputId)?.focus({ preventScroll: true });
-      }, 260);
+        const el = document.getElementById(targetElementId);
+        if (!el) return;
+        if (targetElementId === 'gym-map') {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          el.focus({ preventScroll: true });
+        }
+      }, 280);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -90,6 +106,24 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="flex min-h-screen flex-col bg-[#090B0A] text-[#F4F6F4]">
+        {quotaExceeded && (
+          <div className="bg-amber-50 border-b border-amber-200 text-amber-900 px-4 py-2.5 text-xs md:text-sm text-center sticky top-0 z-50 shadow-sm">
+            <span>
+              Google Maps Platform quota reached. If you are the app owner,
+              visit{' '}
+              <a
+                href="https://developers.google.com/maps/ai/ai-studio?utm_campaign=gmp_mcp_codeassist_v1_aistudio#quota_exceeded_errors"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-semibold text-amber-950 hover:text-amber-800"
+              >
+                maps developer site
+              </a>{' '}
+              for instructions to update your account.
+            </span>
+          </div>
+        )}
+
         <Navbar
           currentPage={currentPage}
           lang={lang}
@@ -119,7 +153,10 @@ export default function App() {
                     )
                   }
                 />
-                <HomeHub lang={lang} onNavigate={(page) => navigate(page)} />
+                <HomeHub
+                  lang={lang}
+                  onNavigate={(page, targetId) => navigate(page, targetId)}
+                />
                 <SocialProof lang={lang} showSteps={false} />
               </motion.div>
             )}
