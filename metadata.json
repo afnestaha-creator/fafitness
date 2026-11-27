@@ -1,0 +1,6 @@
+{
+  "name": "FA FITNESS GYM",
+  "description": "High-converting landing page and free pass reservation experience for FA FITNESS GYM — Musculation, Cardio, Pro Muscle & Coaching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
