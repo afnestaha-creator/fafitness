@@ -223,11 +223,7 @@ export default function App() {
             </AnimatePresence>
           </main>
 
-          <Footer
-            lang={lang}
-            onNavigate={(page) => navigate(page)}
-            onChangeLang={setLang}
-          />
+          <Footer />
         </div>
       </MotionConfig>
     </ErrorBoundary>

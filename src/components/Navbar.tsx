@@ -3,7 +3,6 @@ import { Menu, X } from 'lucide-react';
 import { Language, PageId, buildNavigationTarget } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
-import { ContactSocialIcons } from './ContactSocialIcons';
 
 interface NavbarProps {
   currentPage: PageId;
@@ -35,7 +34,7 @@ export function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#090B0A]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-[1100] border-b border-white/[0.08] bg-[#090B0A]/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-8 px-6 py-4">
         <a
           href={buildNavigationTarget('home')}
@@ -69,8 +68,7 @@ export function Navbar({
           })}
         </nav>
 
-        <div className="flex items-center gap-3 shrink-0">
-          <ContactSocialIcons lang={lang} variant="compact" />
+        <div className="flex items-center gap-3 md:hidden shrink-0">
           <button
             type="button"
             aria-label={mobileOpen ? t.closeMenu : t.openMenu}

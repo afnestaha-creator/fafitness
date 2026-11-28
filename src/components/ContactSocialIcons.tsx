@@ -5,6 +5,7 @@ import { Language } from '../utils/membership';
 interface ContactSocialIconsProps {
   lang: Language;
   variant?: 'compact' | 'labelled';
+  showPhone?: boolean;
 }
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -46,6 +47,7 @@ function FacebookIcon({ className }: { className?: string }) {
 export function ContactSocialIcons({
   lang,
   variant = 'compact',
+  showPhone = true,
 }: ContactSocialIconsProps) {
   const labels =
     lang === 'ar'
@@ -126,14 +128,16 @@ export function ContactSocialIcons({
         <FacebookIcon className="h-4 w-4" />
       </a>
 
-      <a
-        href={GYM_CONTACT.phoneHref}
-        aria-label={labels.phone}
-        title={GYM_CONTACT.phoneDisplay}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#7CE81E]/40 bg-[#7CE81E]/10 text-[#7CE81E] transition-colors hover:bg-[#7CE81E] hover:text-[#090B0A] focus-visible:outline-2 focus-visible:outline-[#7CE81E]"
-      >
-        <Phone className="h-4 w-4" aria-hidden="true" />
-      </a>
+      {showPhone && (
+        <a
+          href={GYM_CONTACT.phoneHref}
+          aria-label={labels.phone}
+          title={GYM_CONTACT.phoneDisplay}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#7CE81E]/40 bg-[#7CE81E]/10 text-[#7CE81E] transition-colors hover:bg-[#7CE81E] hover:text-[#090B0A] focus-visible:outline-2 focus-visible:outline-[#7CE81E]"
+        >
+          <Phone className="h-4 w-4" aria-hidden="true" />
+        </a>
+      )}
     </div>
   );
 }
