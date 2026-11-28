@@ -6,14 +6,16 @@ export const PAGE_PATHS: Record<PageId, string> = {
   home: '/',
   facility: '/equipements',
   programs: '/programmes',
-  booking: '/pass-gratuit',
+  booking: '/contacts',
 };
 
 export function resolvePageFromPath(pathname: string): PageId {
   const normalized = pathname.replace(/\/+$/, '') || '/';
   if (normalized === '/equipements') return 'facility';
-  if (normalized === '/programmes') return 'programs';
-  if (normalized === '/pass-gratuit') return 'booking';
+  if (normalized === '/programmes' || normalized === '/programme') return 'programs';
+  if (normalized === '/contacts' || normalized === '/contact' || normalized === '/pass-gratuit') {
+    return 'booking';
+  }
   return 'home';
 }
 
@@ -155,7 +157,7 @@ export const MEMBERSHIP_TIERS: MembershipTierCopy[] = [
       summary:
         'Accès illimité aux poids libres, machines guidées Pro Muscle, poulies doubles et espace cardio.',
       features: [
-        'Accès complet 06:00 – 23:00, 7j/7',
+        'Accès complet 07:00 – 21:00, 7j/7',
         'Zone poids libres Pro Muscle & barres olympiques',
         'Station poulies doubles & espace fonctionnel',
         'Vestiaires et douches entretenus quotidiennement',
@@ -168,7 +170,7 @@ export const MEMBERSHIP_TIERS: MembershipTierCopy[] = [
       summary:
         'دخول غير محدود لقاعة الأوزان الحرة، أجهزة برو مصل، الكوابل المزدوجة ومنطقة الكارديو.',
       features: [
-        'دخول كامل من 06:00 إلى 23:00 طوال أيام الأسبوع',
+        'دخول كامل من 07:00 إلى 21:00 طوال أيام الأسبوع',
         'منطقة الأوزان الحرة والبارات الأولمبية',
         'أجهزة السحب المزدوجة والتمارين الوظيفية',
         'غرف تغيير الملابس وحمامات نظيفة يومياً',

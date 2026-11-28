@@ -19,6 +19,7 @@ test('resolvePageFromPath maps all 4 page URLs deterministically', () => {
   assert.equal(resolvePageFromPath('/'), 'home');
   assert.equal(resolvePageFromPath('/equipements'), 'facility');
   assert.equal(resolvePageFromPath('/programmes'), 'programs');
+  assert.equal(resolvePageFromPath('/contacts'), 'booking');
   assert.equal(resolvePageFromPath('/pass-gratuit'), 'booking');
   assert.equal(resolvePageFromPath('/equipements/'), 'facility');
   assert.equal(resolvePageFromPath('/unknown'), 'home');
@@ -64,7 +65,7 @@ test('getAppBasePath and subpath helpers support GitHub Pages /fafitness/ and ro
     'programs',
   );
   assert.equal(
-    resolvePageFromLocation('/pass-gratuit', '', '/'),
+    resolvePageFromLocation('/contacts', '', '/'),
     'booking',
   );
 

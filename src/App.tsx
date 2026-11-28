@@ -9,8 +9,7 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { HomeHub } from './components/HomeHub';
 import { FacilityShowcase } from './components/FacilityShowcase';
-import { ProgramPlanner } from './components/ProgramPlanner';
-import { MembershipPlans } from './components/MembershipPlans';
+import { TrainingSchedule } from './components/TrainingSchedule';
 import { SocialProof } from './components/SocialProof';
 import { FreePassBooking } from './components/FreePassBooking';
 import { Footer } from './components/Footer';
@@ -54,8 +53,7 @@ export default function App() {
     }
   });
   const [selectedGoal, setSelectedGoal] = useState<TrainingGoal>('muscle');
-  const [selectedTier, setSelectedTier] =
-    useState<MembershipTierId>('pro-muscle');
+  const [selectedTier] = useState<MembershipTierId>('pro-muscle');
   const [quotaExceeded, setQuotaExceeded] = useState(false);
 
   useEffect(() => {
@@ -120,20 +118,6 @@ export default function App() {
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
-
-  const handleApplyRecommendation = (
-    goal: TrainingGoal,
-    tierId: MembershipTierId,
-  ) => {
-    setSelectedGoal(goal);
-    setSelectedTier(tierId);
-    navigate('booking', 'pass-fullname');
-  };
-
-  const handleSelectTier = (tierId: MembershipTierId) => {
-    setSelectedTier(tierId);
-    navigate('booking', 'pass-fullname');
   };
 
   return (
@@ -209,7 +193,7 @@ export default function App() {
                     lang={lang}
                     onNavigate={(page, targetId) => navigate(page, targetId)}
                   />
-                  <SocialProof lang={lang} showSteps={false} />
+                  <SocialProof lang={lang} />
                 </motion.div>
               )}
 
@@ -237,15 +221,10 @@ export default function App() {
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <ProgramPlanner
+                  <TrainingSchedule
                     lang={lang}
                     onChangeLang={setLang}
-                    onApplyRecommendation={handleApplyRecommendation}
-                  />
-                  <MembershipPlans
-                    lang={lang}
-                    selectedTier={selectedTier}
-                    onSelectTier={handleSelectTier}
+                    onContact={() => navigate('booking', 'pass-fullname')}
                   />
                 </motion.div>
               )}
@@ -264,7 +243,6 @@ export default function App() {
                     selectedGoal={selectedGoal}
                     selectedTier={selectedTier}
                     onGoalChange={setSelectedGoal}
-                    onTierChange={setSelectedTier}
                   />
                 </motion.div>
               )}

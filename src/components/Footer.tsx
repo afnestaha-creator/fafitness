@@ -3,6 +3,7 @@ import { GYM_CONTACT } from '../data/gymData';
 import { Language, PageId, buildNavigationTarget } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
+import { ContactSocialIcons } from './ContactSocialIcons';
 
 interface FooterProps {
   lang: Language;
@@ -78,7 +79,8 @@ export function Footer({ lang, onNavigate, onChangeLang }: FooterProps) {
           </a>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
+          <ContactSocialIcons lang={lang} variant="compact" />
           <LanguageToggle lang={lang} onChangeLang={onChangeLang} />
           <p className="text-xs text-[#6E786E] tabular-nums">
             © {new Date().getFullYear()}

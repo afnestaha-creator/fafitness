@@ -5,10 +5,9 @@ import { TRANSLATIONS } from '../i18n/translations';
 
 interface SocialProofProps {
   lang: Language;
-  showSteps?: boolean;
 }
 
-export function SocialProof({ lang, showSteps = true }: SocialProofProps) {
+export function SocialProof({ lang }: SocialProofProps) {
   const t = TRANSLATIONS[lang].results;
 
   return (
@@ -59,26 +58,6 @@ export function SocialProof({ lang, showSteps = true }: SocialProofProps) {
             );
           })}
         </div>
-
-        {showSteps && (
-          <div className="mt-14 border-t border-white/[0.08] pt-12">
-            <p className="text-sm font-medium text-[#9BA69B]">
-              {t.stepsHeading}
-            </p>
-            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-              {t.steps.map((item) => (
-                <div key={item.step} className="space-y-2">
-                  <p className="font-display text-2xl font-bold text-[#7CE81E] tabular-nums">
-                    {item.step}. {item.title}
-                  </p>
-                  <p className="text-sm leading-relaxed text-[#B8C0B8]">
-                    {item.detail}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );

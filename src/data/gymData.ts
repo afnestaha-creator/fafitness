@@ -46,14 +46,16 @@ export const GYM_CONTACT = {
   handle: 'fafitness.gym',
   phoneDisplay: '0771 03 91 72',
   phoneHref: 'tel:+213771039172',
+  instagramUrl: 'https://www.instagram.com/fafitness_gym?hvrq=MTZ0N2N5YnF6bWd4cw==',
+  facebookUrl: 'https://www.facebook.com/share/1A1bugNjww/',
   addressDisplay: 'RQ58+255, Rue Lounis Mustapha, Jijel',
   addressQueries: [
     'RQ58+255, Rue Lounis Mustapha, Jijel',
     'Rue Lounis Mustapha, Jijel, Algeria',
   ],
   hours: {
-    fr: '06:00 – 23:00 · Ouvert 7j/7',
-    ar: '06:00 – 23:00 · مفتوح 7 أيام/الأسبوع',
+    fr: '07:00 – 21:00 · Ouvert 7j/7',
+    ar: '07:00 – 21:00 · مفتوح 7 أيام/الأسبوع',
   },
 };
 

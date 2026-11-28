@@ -4,7 +4,6 @@ import { CheckCircle2, Phone, ArrowLeft, ArrowRight, RotateCcw } from 'lucide-re
 import { GYM_CONTACT } from '../data/gymData';
 import {
   Language,
-  MEMBERSHIP_TIERS,
   MembershipTierId,
   TrainingGoal,
   TrialBookingErrors,
@@ -14,6 +13,7 @@ import {
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
 import { GymLocationMap } from './GymLocationMap';
+import { ContactSocialIcons } from './ContactSocialIcons';
 
 interface FreePassBookingProps {
   lang: Language;
@@ -21,15 +21,14 @@ interface FreePassBookingProps {
   selectedGoal: TrainingGoal;
   selectedTier: MembershipTierId;
   onGoalChange: (goal: TrainingGoal) => void;
-  onTierChange: (tier: MembershipTierId) => void;
+  onTierChange?: (tier: MembershipTierId) => void;
 }
 
-interface ConfirmedPass {
+interface ConfirmedContact {
   passCode: string;
   fullName: string;
   phone: string;
   goalId: TrainingGoal;
-  tierId: MembershipTierId;
   preferredTimeIdx: number;
 }
 
@@ -39,17 +38,15 @@ export function FreePassBooking({
   selectedGoal,
   selectedTier,
   onGoalChange,
-  onTierChange,
 }: FreePassBookingProps) {
   const t = TRANSLATIONS[lang].booking;
-  const stepsT = TRANSLATIONS[lang].results;
   const ArrowIcon = lang === 'ar' ? ArrowLeft : ArrowRight;
 
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
-  const [preferredTimeIdx, setPreferredTimeIdx] = useState(2);
+  const [preferredTimeIdx, setPreferredTimeIdx] = useState(0);
   const [errors, setErrors] = useState<TrialBookingErrors>({});
-  const [confirmed, setConfirmed] = useState<ConfirmedPass | null>(null);
+  const [confirmed, setConfirmed] = useState<ConfirmedContact | null>(null);
 
   const preferredTime = t.timeOptions[preferredTimeIdx] ?? t.timeOptions[0];
 
@@ -77,7 +74,6 @@ export function FreePassBooking({
       fullName: fullName.trim(),
       phone: phone.trim(),
       goalId: selectedGoal,
-      tierId: selectedTier,
       preferredTimeIdx,
     });
   };
@@ -91,9 +87,6 @@ export function FreePassBooking({
 
   const confirmedGoalLabel = confirmed
     ? t.goalOptions.find((g) => g.id === confirmed.goalId)?.label ?? ''
-    : '';
-  const confirmedTierName = confirmed
-    ? (MEMBERSHIP_TIERS.find((item) => item.id === confirmed.tierId) ?? MEMBERSHIP_TIERS[1])[lang].name
     : '';
   const confirmedTime = confirmed
     ? t.timeOptions[confirmed.preferredTimeIdx] ?? t.timeOptions[0]
@@ -142,6 +135,10 @@ export function FreePassBooking({
                   {GYM_CONTACT.addressDisplay}
                 </span>
               </p>
+
+              <div className="pt-3">
+                <ContactSocialIcons lang={lang} variant="labelled" />
+              </div>
             </div>
           </div>
 
@@ -174,7 +171,7 @@ export function FreePassBooking({
                   </div>
                 </div>
 
-                <dl className="mt-6 grid grid-cols-1 gap-4 border-y border-white/[0.08] py-5 text-sm sm:grid-cols-2">
+                <dl className="mt-6 grid grid-cols-1 gap-4 border-y border-white/[0.08] py-5 text-sm sm:grid-cols-3">
                   <div>
                     <dt className="text-[#9BA69B]">{t.phoneOutLabel}</dt>
                     <dd
@@ -196,12 +193,6 @@ export function FreePassBooking({
                     <dt className="text-[#9BA69B]">{t.focusOutLabel}</dt>
                     <dd className="mt-0.5 font-semibold text-[#F4F6F4]">
                       {confirmedGoalLabel}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-[#9BA69B]">{t.tierOutLabel}</dt>
-                    <dd className="mt-0.5 font-semibold text-[#F4F6F4]">
-                      {confirmedTierName}
                     </dd>
                   </div>
                 </dl>
@@ -331,47 +322,24 @@ export function FreePassBooking({
 
                   <div>
                     <label
-                      htmlFor="pass-tier"
+                      htmlFor="pass-time"
                       className="block text-sm font-medium text-[#E5EAE5]"
                     >
-                      {t.tierLabel}
+                      {t.timeLabel}
                     </label>
                     <select
-                      id="pass-tier"
-                      value={selectedTier}
-                      onChange={(e) =>
-                        onTierChange(e.target.value as MembershipTierId)
-                      }
+                      id="pass-time"
+                      value={preferredTimeIdx}
+                      onChange={(e) => setPreferredTimeIdx(Number(e.target.value))}
                       className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#090B0A] px-4 py-3 text-sm text-[#F4F6F4] focus:border-[#7CE81E] focus:outline-none"
                     >
-                      {MEMBERSHIP_TIERS.map((tier) => (
-                        <option key={tier.id} value={tier.id}>
-                          {tier[lang].name}
+                      {t.timeOptions.map((slot, idx) => (
+                        <option key={slot} value={idx}>
+                          {slot}
                         </option>
                       ))}
                     </select>
                   </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="pass-time"
-                    className="block text-sm font-medium text-[#E5EAE5]"
-                  >
-                    {t.timeLabel}
-                  </label>
-                  <select
-                    id="pass-time"
-                    value={preferredTimeIdx}
-                    onChange={(e) => setPreferredTimeIdx(Number(e.target.value))}
-                    className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#090B0A] px-4 py-3 text-sm text-[#F4F6F4] focus:border-[#7CE81E] focus:outline-none"
-                  >
-                    {t.timeOptions.map((slot, idx) => (
-                      <option key={slot} value={idx}>
-                        {slot}
-                      </option>
-                    ))}
-                  </select>
                 </div>
 
                 <button
@@ -383,24 +351,6 @@ export function FreePassBooking({
                 </button>
               </form>
             )}
-          </div>
-        </div>
-
-        <div className="mt-16 border-t border-white/[0.08] pt-12">
-          <p className="text-sm font-medium text-[#9BA69B]">
-            {stepsT.stepsHeading}
-          </p>
-          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {stepsT.steps.map((item) => (
-              <div key={item.step} className="space-y-2">
-                <p className="font-display text-2xl font-bold text-[#7CE81E] tabular-nums">
-                  {item.step}. {item.title}
-                </p>
-                <p className="text-sm leading-relaxed text-[#B8C0B8]">
-                  {item.detail}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
 
