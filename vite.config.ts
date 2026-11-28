@@ -2,22 +2,11 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import {defineConfig} from 'vite';
 
-export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, '.', '');
-  const mapsApiKey =
-    process.env.VITE_GOOGLE_MAPS_API_KEY ||
-    env.VITE_GOOGLE_MAPS_API_KEY ||
-    process.env.GOOGLE_MAPS_API_KEY ||
-    env.GOOGLE_MAPS_API_KEY ||
-    '';
-
+export default defineConfig(() => {
   return {
     base: './',
-    define: {
-      __MAPS_KEY_FALLBACK__: JSON.stringify(mapsApiKey),
-    },
     plugins: [
       react(),
       tailwindcss(),

@@ -128,7 +128,6 @@ export interface Translations {
     loadingMap: string;
     noResultsError: string;
     apiError: string;
-    missingKeyError: string;
     geoDeniedError: string;
     geoUnsupportedError: string;
     routeError: string;
@@ -332,8 +331,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         'Position exacte introuvable automatiquement pour cette adresse. Ouvrez le repère directement dans Google Maps.',
       apiError:
         'Impossible de charger la carte interactive pour le moment. Utilisez le bouton Google Maps ci-dessous.',
-      missingKeyError:
-        'Clé Google Maps non configurée. Utilisez le lien direct Google Maps ci-dessous pour nous rejoindre.',
       geoDeniedError:
         'Autorisez la géolocalisation dans votre navigateur pour tracer l’itinéraire depuis votre position.',
       geoUnsupportedError:
@@ -538,8 +535,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
         'تعذر تحديد الإحداثيات تلقائياً. يمكنك فتح الموقع مباشرة عبر زر خرائط جوجل أدناه.',
       apiError:
         'تعذر تحميل الخريطة التفاعلية حالياً. استخدم رابط خرائط جوجل المباشر أدناه.',
-      missingKeyError:
-        'مفتاح خرائط جوجل غير مهيأ حالياً. استخدم الرابط المباشر للوصول إلى القاعة.',
       geoDeniedError:
         'يرجى تفعيل صلاحية الموقع في متصفحك لحساب المسار من مكانك الحالي.',
       geoUnsupportedError:

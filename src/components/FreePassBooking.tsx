@@ -12,7 +12,7 @@ import {
 } from '../utils/membership';
 import { TRANSLATIONS } from '../i18n/translations';
 import { LanguageToggle } from './LanguageToggle';
-import { GymLocationMap } from './GymLocationMap';
+import { GymMap } from './GymMap';
 import { ContactSocialIcons } from './ContactSocialIcons';
 
 interface FreePassBookingProps {
@@ -354,7 +354,7 @@ export function FreePassBooking({
           </div>
         </div>
 
-        <GymLocationMap lang={lang} />
+        <GymMap lang={lang} />
       </div>
     </section>
   );
